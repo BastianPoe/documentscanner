@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+echo Device ${SCANBD_DEVICE} with Action ${SCANBD_ACTION} 
+
+if [ "${SCANBD_ACTION}" == "scan" ]; then
+    echo Color scan into /inbox
+    /home/pi/document_archive/scripts/scan.sh ${SCANBD_DEVICE} "Color" "/inbox"
+elif [ "${SCANBD_ACTION}" == "email" ]; then
+    echo Grey scan into /inbox
+    /home/pi/document_archive/scripts/scan.sh ${SCANBD_DEVICE} "Gray" "/inbox"
+fi
