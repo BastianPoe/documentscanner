@@ -4,6 +4,8 @@ INPUT_DIR="${1}"
 OUTPUT_DIR="${2}"
 FILENAME=`basename ${INPUT_DIR}`
 
+echo Creating PDF for ${INPUT_DIR}
+
 # Check if input directory exists
 if [ ! -d "${INPUT_DIR}" ]; then
     echo "${INPUT_DIR}" does not exist, exiting
@@ -50,7 +52,7 @@ done
 # Join PDFs
 pdfunite "${INPUT_DIR}"/ocred-*.pdf "${OUTPUT_DIR}"/"${FILENAME}.pdf"
 
-echo Created output: "${OUTPUT_DIR}"/"${FILENAME}.pdf"
-
 # Remove temporary directory
 rm -Rf "${INPUT_DIR}"
+
+echo Done. Created output: "${OUTPUT_DIR}"/"${FILENAME}.pdf"

@@ -23,6 +23,8 @@ if [ ! -d "${OUTPUT_DIR}" ]; then
     exit 1
 fi
 
+echo Scan Processor running
+
 while [ 1 ]; do
     find "${INPUT_DIR}" -maxdepth 1 -name "scan_*" -type d -exec ./create_pdf.sh {} "${OUTPUT_DIR}" \;
     sleep 10
