@@ -24,6 +24,6 @@ if [ ! -d "${OUTPUT_DIR}" ]; then
 fi
 
 while [ 1 ]; do
-    find "${INPUT_DIR}" -name "scan_*" -type d -exec ./create_pdf.sh {} "${OUTPUT_DIR}" \;
+    find "${INPUT_DIR}" -maxdepth 1 -name "scan_*" -type d -exec ./create_pdf.sh {} "${OUTPUT_DIR}" \;
     sleep 10
 done
