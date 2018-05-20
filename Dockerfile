@@ -5,7 +5,7 @@ MAINTAINER Wolf-Bastian Pöttner <bastian@poettner.de>
 VOLUME ["/inbox", "/outbox"]
 
 # Install dependencies
-RUN apt-get update && apt-get -y -qq install bash unpaper tesseract-ocr tesseract-ocr-deu imagemagick
+RUN apt-get update && apt-get -y -qq install bash unpaper tesseract-ocr tesseract-ocr-deu imagemagick bc
 
 # Install our scripts
 COPY scripts/process.sh scripts/create_pdf.sh /
