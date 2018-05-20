@@ -8,8 +8,8 @@ VOLUME ["/inbox", "/outbox"]
 RUN apt-get update && apt-get -y -qq install unpaper tesseract-ocr tesseract-ocr-deu imagemagick
 
 # Install our scripts
-COPY scripts/process.sh scripts/create_pdf.sh /root
+COPY scripts/process.sh scripts/create_pdf.sh /
 
 # Run document processor
-ENTRYPOINT /root/process.sh
+ENTRYPOINT /process.sh
 CMD ["/inbox", "/outbox"]
