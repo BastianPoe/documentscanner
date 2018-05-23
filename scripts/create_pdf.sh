@@ -37,7 +37,7 @@ for PAGE in `ls "${INPUT_DIR}"/page*`; do
     # Determine standard deviation 
     STDDEV=`identify -verbose "${INPUT_DIR}"/"${FILE}" | grep -i deviation | tail -n 1 | awk -F '(' ' { print $2 } ' | awk -F ')' ' { print $1 } '`
     # If standard deviation for all channels is too low, page is empty
-    if [ `echo ${STDDEV}'>'0.1 | bc -l` == "0" ]; then
+    if [ `echo ${STDDEV}'>'0.09 | bc -l` == "0" ]; then
         echo Page ${PAGE} empty, skipping
         continue
     fi
