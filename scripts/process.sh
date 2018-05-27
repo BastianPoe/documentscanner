@@ -23,9 +23,15 @@ if [ ! -d "${OUTPUT_DIR}" ]; then
     exit 1
 fi
 
+# Find the number of CPU cores
+CORES=`nproc`
+
+# Use all but one core for document processing
+PROCESSES=`echo ${CORES}-1 | bc`
+
 echo Scan Processor running
 
 while [ 1 ]; do
-    find "${INPUT_DIR}" -maxdepth 1 -name "scan_*" -type d -exec ./create_pdf.sh {} "${OUTPUT_DIR}" \;
+    find "${INPUT_DIR}" -maxdepth 1 -name "scan_*" -type d | xargs -n 1 -L 1 -I FILE --max-procs=${PROCESSES} ./create_pdf.sh "FILE" "${OUTPUT_DIR}"
     sleep 10
 done
