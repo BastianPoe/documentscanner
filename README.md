@@ -16,6 +16,7 @@
 ## What if it does not work
 1. Check if `sane` recognizes your scanner via `$ scanimage -L`
 1. Check the logs of `scanbd` via `$ journalctl -f`. You should be seeing log outputs whenever you press a button
+1. Modify the events scanbd triggers for in `/etc/scanbd/scripts/test.script` (currently: scan and email)
 1. Check if scanned raw documents end up in `/inbox`
 1. Check logfiles of the processor
 1. Check if PDFs end up in `/outbox`
