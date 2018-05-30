@@ -4,6 +4,11 @@ INPUT_DIR="${1}"
 OUTPUT_DIR="${2}"
 FILENAME=`basename ${INPUT_DIR}`
 
+# Skip documents that are aborted and where a preview already exists
+if [ -f "${INPUT_DIR}"/aborted ] && [ -f "${INPUT_DIR}"/preview.pdf ]; then
+    exit 0
+fi
+
 echo Creating PDF for ${INPUT_DIR}
 
 # Check if input directory exists
@@ -13,8 +18,8 @@ if [ ! -d "${INPUT_DIR}" ]; then
 fi
 
 # Check if input scan is complete
-if [ ! -f "${INPUT_DIR}"/complete ]; then
-    echo "${INPUT_DIR}" is not completed, exiting
+if [ ! -f "${INPUT_DIR}"/complete ] && [ ! -f "${INPUT_DIR}"/aborted ]; then
+    echo "${INPUT_DIR}" is not done, exiting
     exit 1
 fi
 
@@ -50,9 +55,13 @@ for PAGE in `ls "${INPUT_DIR}"/page*`; do
 done
 
 # Join PDFs
-pdfunite "${INPUT_DIR}"/ocred-*.pdf "${OUTPUT_DIR}"/"${FILENAME}.pdf"
+pdfunite "${INPUT_DIR}"/ocred-*.pdf "${INPUT_DIR}"/preview.pdf
 
 # Remove temporary directory
-rm -Rf "${INPUT_DIR}"
-
-echo Done. Created output: "${OUTPUT_DIR}"/"${FILENAME}.pdf"
+if [ -f "${INPUT_DIR}"/complete ]; then
+    mv "${INPUT_DIR}"/preview.pdf "${OUTPUT_DIR}"/"${FILENAME}.pdf"
+    rm -Rf "${INPUT_DIR}"
+    echo Done. Created output: "${OUTPUT_DIR}"/"${FILENAME}.pdf"
+else
+    echo Scan aborted. Created output: "${INPUT_DIR}"/preview.pdf
+fi
