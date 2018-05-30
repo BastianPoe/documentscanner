@@ -1,11 +1,13 @@
 #!/bin/bash -e
 
+FOLDER="/inbox"
+
 echo Device ${SCANBD_DEVICE} with Action ${SCANBD_ACTION} 
 
 if [ "${SCANBD_ACTION}" == "scan" ]; then
-    echo Color scan into /inbox
-    /home/pi/document_archive/scripts/scan.sh ${SCANBD_DEVICE} "Color" "/inbox"
+    echo Color scan into ${FOLDER}
+    /home/pi/documentscanner/scripts/scan.sh ${SCANBD_DEVICE} "Color" "${FOLDER}"
 elif [ "${SCANBD_ACTION}" == "email" ]; then
-    echo Grey scan into /inbox
-    /home/pi/document_archive/scripts/scan.sh ${SCANBD_DEVICE} "Gray" "/inbox"
+    echo Grey scan into ${FOLDER}
+    /home/pi/documentscanner/scripts/scan.sh ${SCANBD_DEVICE} "Gray" "${FOLDER}"
 fi
