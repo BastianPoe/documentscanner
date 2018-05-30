@@ -33,8 +33,12 @@ fi
 mkdir -p "${SCANDIR}"
 
 # Scan into target directory
-scanadf --df-action Stop --df-skew=yes --df-thickness=yes --df-length=yes -d "${DEVICE}" --page-height 297 -y 297 --page-width 210 -x 210 --swskip 2.5 --resolution 250 --mode "${MODE}" 0 0 --source "ADF Duplex" -o "${SCANDIR}"/page-%04d
+scanadf --df-action Stop --df-skew=yes --df-thickness=yes --df-length=yes -d "${DEVICE}" --page-height 297 -y 297 --page-width 210 -x 210 --swskip 2.5 --resolution 250 --mode "${MODE}" 0 0 --source "ADF Duplex" -o "${SCANDIR}"/page-%04d || touch "${SCANDIR}"/aborted
 
 # Mark scan as complete
 # If previous steps aborts (e.g. due to ADF jam or multi-feed error, scan is ignored for postprocessing)
-touch "${SCANDIR}"/complete
+if [ `find "${SCANDIR}" -name "page-*" | wc -l` -gt 0 ]; then
+    touch "${SCANDIR}"/complete
+else
+    touch "${SCANDIR}"/empty
+fi
