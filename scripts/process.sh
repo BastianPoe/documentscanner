@@ -32,6 +32,6 @@ PROCESSES=`echo ${CORES}-1 | bc`
 echo Scan Processor running
 
 while [ 1 ]; do
-    find "${INPUT_DIR}" -maxdepth 1 -name "scan_*" -type d | xargs -n 1 -L 1 -I FILE --max-procs=${PROCESSES} ./create_pdf.sh "FILE" "${OUTPUT_DIR}"
+    find "${INPUT_DIR}" -maxdepth 1 -name "scan_*" -type d | xargs -n 1 -L 1 -I FILE --max-procs=${PROCESSES} sh -c "echo Processing FILE; ./create_pdf.sh 'FILE' '${OUTPUT_DIR}' >> 'FILE'/process.log 2>&1"
     sleep 10
 done
