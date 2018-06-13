@@ -54,14 +54,21 @@ for PAGE in `ls "${INPUT_DIR}"/page*`; do
     tesseract "${INPUT_DIR}"/unpaper-"${FILE}" "${INPUT_DIR}"/ocred-"${FILE}" -l deu pdf
 done
 
-# Join PDFs
-pdfunite "${INPUT_DIR}"/ocred-*.pdf "${INPUT_DIR}"/preview.pdf
+# Check if at least one page is ready
+if [ -f "${INPUT_DIR}"/ocred-*.pdf ]; then
+    # Yes: Join PDFs
+    pdfunite "${INPUT_DIR}"/ocred-*.pdf "${INPUT_DIR}"/preview.pdf
+fi
 
 # Remove temporary directory
 if [ -f "${INPUT_DIR}"/complete ]; then
-    mv "${INPUT_DIR}"/preview.pdf "${OUTPUT_DIR}"/"${FILENAME}.pdf"
-    rm -Rf "${INPUT_DIR}"
-    echo Done. Created output: "${OUTPUT_DIR}"/"${FILENAME}.pdf"
+    if [ -f "${INPUT_DIR}"/preview.pdf ]; then
+        mv "${INPUT_DIR}"/preview.pdf "${OUTPUT_DIR}"/"${FILENAME}.pdf"
+        rm -Rf "${INPUT_DIR}"
+        echo Done. Created output: "${OUTPUT_DIR}"/"${FILENAME}.pdf"
+    else
+        echo All input files were empty, aborting
+    fi
 else
     echo Scan aborted. Created output: "${INPUT_DIR}"/preview.pdf
 fi
