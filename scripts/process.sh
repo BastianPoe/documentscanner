@@ -27,9 +27,14 @@ fi
 CORES=`nproc`
 
 # Use all but one core for document processing
-PROCESSES=`echo ${CORES}-1 | bc`
+PROCESSES=`echo ${CORES} / 2 | bc`
 
-echo Scan Processor running
+# Ensure to run with at least one thread
+if [ ${PROCESSES} -lt 1 ]; then
+    PROCESSES=1
+fi
+
+echo Scan Processor running with ${PROCESSES} threads
 
 while [ 1 ]; do
     # Ignore errors
