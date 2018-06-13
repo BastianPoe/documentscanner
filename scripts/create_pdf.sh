@@ -9,7 +9,7 @@ if [ -f "${INPUT_DIR}"/aborted ] && [ -f "${INPUT_DIR}"/preview.pdf ]; then
     exit 0
 fi
 
-echo Creating PDF for ${INPUT_DIR}
+echo `date` Creating PDF for ${INPUT_DIR}
 
 # Check if input directory exists
 if [ ! -d "${INPUT_DIR}" ]; then
