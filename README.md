@@ -5,9 +5,10 @@
 * (optional) a more powerful host to run the OCR tasks
 
 ## Setup instructions
-1. Check out `documentscanner` onto a raspberry pi: `$ git checkout https://github.com/BastianPoe/documentscanner.git`
+1. Check out `documentscanner` onto a raspberry pi: `$ git checkout https://github.com/BastianPoe/documentscanner.git ; cd documentscanner`
 1. Install sane and other dependencies`$ apt-get install sane sane-utils bash unpaper tesseract-ocr tesseract-ocr-deu imagemagick bc poppler-utils findutils scanbd`
-1. Install scanbd script: `$ cp scanbd/test.script /etc/scanbd/scripts/`
+1. Install scanbd script: `$ mkdir -p /etc/scanbd/scripts ; cp scanbd/test.script /etc/scanbd/scripts/`
+1. Enable scanbd: `$ systemctl enable scanbd`
 1. Restart scanbd: `$ systemctl restart scanbd`
 1. Create inbox and outbox: `$ mkdir -p /inbox /outbox`
 1. Start document processor: `$ cd scripts ; ./process.sh /inbox /outbox`
@@ -37,8 +38,8 @@ I run the processor in a Docker container on my [Synology](https://www.synology.
 
 1. Create a new shared directory on your NAS and expose it via NFS to your raspberry pi
 1. Install autofs: `$ apt-get install autofs`
-1. Add NFS mounting to /etc/autofs.misc: `documentarchive -rw,soft,intr,rsize=8192,wsize=8192 192.168.1.26:/volume1/documentarchive`
-1. Enable autofs.misc by adding the following line to `/etc/autofs.master`: `/misc   /etc/auto.misc`
+1. Add NFS mounting to /etc/auto.misc: `documentarchive -rw,soft,intr,rsize=8192,wsize=8192 192.168.1.26:/volume1/documentarchive`
+1. Enable auto.misc by adding the following line to `/etc/auto.master`: `/misc   /etc/auto.misc`
 1. Edit your `/etc/scanbd/scripts/test.script` to place scans into your output folder. E.g. `FOLDER="/misc/documentarchive/scans_raw`
 1. Pull `bastianpoe/document_archive` into the [Docker Station](https://www.synology.com/de-de/dsm/feature/docker) on your NAS
 1. Map `/inbox` onto the NFS share created above and `/outbox` onto where the PDFs shall be stored
